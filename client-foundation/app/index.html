@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="en" ng-app="outdoorApp">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outdoor</title>
+    <!-- build:css(.tmp) styles/app.css -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <!-- endbuild -->
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+  <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+          <li class="name">
+          <h1><a href="#">Outdoors</a></h1>
+          </li>
+          <li class="toggle-topbar menu-icon"><a href="#">Outdoors</a></li>
+      </ul>
+
+      <section class="top-bar-section">
+      <ul class="right">
+          <li class="has-form">
+            <div class="row collapse">
+                <div class="large-8 small-9 columns">
+                    <input type="text" placeholder="Search..."/>
+                </div>
+                <div class="large-4 small-3 columns">
+                    <a href="#" class="alert button expand">Search</a>
+                </div>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <a href="#">Action</a>
+            <ul class="dropdown">
+                <li><a href="#/users/auth">Login/Sign Up</a></li>
+            </ul>
+          </li>
+      </ul>
+  </section>
+  </nav>
+
+  <!-- main content goes here -->
+  <section class="main-section" ng-view>
+
+
+  </section>
+
+  
+    <!-- build:js scripts/vendor/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/foundation/js/foundation.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <!-- endbower -->
+
+    <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/service.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="large-6 columns" ng-controller="RegisterCtrl">
+        <form name="form" novalidate>
+            <div class="row">
+                <label for="username">Username</label>
+                <input id="username" type="text" placeholder="username" ng-model="user.username" required/>
+                <small class="error" ng-show="form.username.$error.required">This field is required.</small>
+            </div>
+            <div class="row">
+                <label for="password-one">Password</label>
+                <input id="password-one" type="password" placeholder="password" ng-model="user.passwordOne" required />
+                <small class="error" ng-show="form.username.$error.required">This field is required.</small>
+            </div>
+            <div class="row">
+                <label for="password-two">Password</label>
+                <input id="password-two" type="password" placeholder="password" ng-model="user.passwordTwo" required />
+                <small class="error" ng-show="form.username.$error.required">This field is required.</small>
+            </div>
+            <div class="row">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="email" ng-model="user.email" required />
+                <small class="error" ng-show="form.email.$error.email">Valid email address is required!</small>
+            </div>
+            <div class="row">
+                <button ng-click="create(user)" ng-disabled="form.$invalid || isValidPwd(user)">save</button>
+            </div>
+        </form> 
+
+    </div>
+
+    <div class="large-6 columns" ng-controller="SignUpCtrl">
+        <form  novalidate>
+            <div class="row">
+                <label for="username">Username</label>
+                <input id="username" type="text" placeholder="username" ng-model="user.username"/>
+            </div>
+            <div class="row">
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="password" ng-model="user.password" />
+            </div>
+        </form> 
+    </div>
+</div>
+
+<div id="welcome" class="reveal-modal" data-reveal>
+  <h2>Awesome. You have an account.</h2>
+  <p class="lead">You will now received an email.</p>
+  <p>Please follow the instruction in the mail. Your email won't be share for commercial use or any other crazy activities. This is only a way to authenticate you.</p>
+  <a class="e-reveal-modal">&#215;</a>
+</div>
