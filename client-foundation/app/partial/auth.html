@@ -1,42 +1,50 @@
 <div class="row">
-    <div class="large-6 columns" ng-controller="RegisterCtrl">
+    <div class="small-12 large-5 columns" ng-controller="RegisterCtrl">
         <form name="form" novalidate>
             <div class="row">
                 <label for="username">Username</label>
-                <input id="username" type="text" placeholder="username" ng-model="user.username" required/>
-                <small class="error" ng-show="form.username.$error.required">This field is required.</small>
+                <input id="username" name="username" type="text" placeholder="username" ng-model="user.username" required />
+                <small class="error" ng-show="form.username.$invalid && form.username.$dirty">This field is required.</small>
             </div>
             <div class="row">
-                <label for="password-one">Password</label>
-                <input id="password-one" type="password" placeholder="password" ng-model="user.passwordOne" required />
-                <small class="error" ng-show="form.username.$error.required">This field is required.</small>
+                <label for="passwordOne">Password</label>
+                <input id="passwordOne" name="passwordOne" type="password" placeholder="password" ng-model="user.passwordOne" required />
+                <small class="error" ng-show="form.passwordOne.$invalid && form.passwordOne.$dirty">This field is required.</small>
             </div>
             <div class="row">
-                <label for="password-two">Password</label>
-                <input id="password-two" type="password" placeholder="password" ng-model="user.passwordTwo" required />
-                <small class="error" ng-show="form.username.$error.required">This field is required.</small>
+                <label for="passwordTwo">Password</label>
+                <input id="passwordTwo" name="passwordTwo" type="password" placeholder="repeat password" ng-model="user.passwordTwo" required />
+                <small class="error" ng-show="form.passwordTwo.$invalid && form.passwordTwo.$dirty">This field is required.</small>
             </div>
             <div class="row">
                 <label for="email">Email</label>
-                <input id="email" type="email" placeholder="email" ng-model="user.email" required />
+                <input id="email" name="email" type="email" placeholder="email" ng-model="user.email" required />
                 <small class="error" ng-show="form.email.$error.email">Valid email address is required!</small>
             </div>
             <div class="row">
-                <button ng-click="create(user)" ng-disabled="form.$invalid || isValidPwd(user)">save</button>
+                <button class="button [radius round]" ng-click="update(user)" ng-disabled="form.$invalid && isValidPwd(user)">Register</button>
             </div>
         </form> 
 
     </div>
 
-    <div class="large-6 columns" ng-controller="SignUpCtrl">
-        <form  novalidate>
+    <div class="small-12 large-5 columns" ng-controller="SignUpCtrl">
+        
+        <form name="form_login" novalidate>
             <div class="row">
-                <label for="username">Username</label>
-                <input id="username" type="text" placeholder="username" ng-model="user.username"/>
+                <label for="user_id">Username</label>
+                <input id="user_id" name="user_id" type="text" placeholder="username" ng-model="user.username" required />
+                <small class="error" ng-show="form_login.user_id.$error.required && form_login.user_id.$dirty">This field is required.</small>
+                <small class="error" ng-show="error">{{error}}</small>
             </div>
             <div class="row">
                 <label for="password">Password</label>
-                <input id="password" type="password" placeholder="password" ng-model="user.password" />
+                <input id="password" name="password" type="password" placeholder="password" ng-model="user.password" required />
+                <small class="error" ng-show="form_login.password.$error.required && form_login.user_id.$dirty">This field is required.</small>
+                <small class="error" ng-show="error">{{error}}</small>
+            </div>
+            <div class="row">
+                <button class="button [radius round]" ng-click="login(user)" ng-disabled="form.$invalid">Sign Up</button>
             </div>
         </form> 
     </div>

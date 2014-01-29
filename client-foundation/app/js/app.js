@@ -4,7 +4,7 @@
 $(document).foundation();
 
 // AngularJS Code
-var outdoorApp = angular.module('outdoorApp', ['ngRoute', 'usersControllers', 'usersServices']);
+var outdoorApp = angular.module('outdoorApp', ['ngRoute', 'usersControllers', 'usersServices', 'tokenServices']);
 
 
 outdoorApp.factory('globalResponseInterceptor',['$q','$location','$rootScope',function($q,$location,$rootScope){

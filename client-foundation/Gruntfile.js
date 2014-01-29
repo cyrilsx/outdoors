@@ -39,6 +39,16 @@ module.exports = function (grunt) {
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: 'localhost'
             },
+            proxies: [
+                {
+                    context: '/services',
+                    host: 'localhost',
+                    port: '8080',
+                    //https: false,
+                    //changeOrigin: false,
+                    //xforward: false
+                }
+            ],
             livereload: {
                 options: {
                     open: true,
@@ -274,6 +284,7 @@ module.exports = function (grunt) {
             'clean:server',
             'concurrent:server',
             'autoprefixer',
+            'configureProxies:server',
             'connect:livereload',
             'watch'
         ]);
