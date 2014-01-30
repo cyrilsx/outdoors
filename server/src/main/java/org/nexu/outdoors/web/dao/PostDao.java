@@ -33,7 +33,7 @@ public class PostDao {
             postCollection.update("{_id:#}", post.getPostId()).with(post);
         }
 
-        return new Post(mongoPost.getPostId(), mongoPost.getTitle(), mongoPost.getDescription(), mongoPost.getAuthor());
+        return new Post(mongoPost.getPostId(), mongoPost.getTitle(), mongoPost.getDescription(), mongoPost.getAuthor(), publishDate);
     }
 
     public Post getPost(String postId) {
@@ -42,7 +42,7 @@ public class PostDao {
         if(cPost == null) {
             throw new IllegalStateException("postNotFound");
         }
-        return new Post(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor());
+        return new Post(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor(), publishDate);
     }
 
     public List<Post> findAll(int offset, int limit) {
@@ -50,7 +50,7 @@ public class PostDao {
 
         List<Post> resPostList = new ArrayList<Post>();
         for(CPost cPost : cPosts) {
-             resPostList.add(new Post(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor()));
+             resPostList.add(new Post(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor(), publishDate));
         }
 
         return resPostList;

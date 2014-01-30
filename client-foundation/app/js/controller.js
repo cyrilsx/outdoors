@@ -1,6 +1,7 @@
 'use strict';
 
 var usersControllers = angular.module('usersControllers', []);
+var newsControllers = angular.module('newsControllers', []);
 
 
 usersControllers.controller('SignUpCtrl', ['$scope', '$rootScope','$location','Token', function ($scope, $rootScope, $location, Token) {
@@ -55,4 +56,30 @@ usersControllers.controller('RegisterCtrl', ['$scope', '$rootScope','$location',
 }
 ]);
 
+
+
+newsControllers.controller('NewsListCtrl', ['$scope', 'News', function ($scope, News) {
+    $scope.newsList = News.query();
+    $scope.orderProp = 'publishDate';
+}
+]);
+
+
+
+newsControllers.controller('AddNewsCtrl', ['$scope', '$rootScope','$location','News', function ($scope, $rootScope, $location, News) {
+
+    $scope.publish = function(news) {
+        News.create(news, function(response) {
+
+        });       
+    };
+
+    $scope.reset = function() {
+         $scope.user = angular.copy($scope.master);
+    };
+
+    $scope.reset();
+
+}
+]);
 

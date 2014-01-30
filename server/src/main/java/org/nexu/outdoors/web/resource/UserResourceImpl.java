@@ -61,7 +61,7 @@ public class UserResourceImpl implements UserResource {
     @Override
     public void create(User user) {
         user.setLocked(false);
-        user.setActive(false);
+        user.setActive(true); // TODO use MailService and Activation key in the future
         user.setAuthorities(Lists.asList(CUser.Authorities.ROLE_USER.getAuthority(), new String[0]));
         userDao.create(user);
     }

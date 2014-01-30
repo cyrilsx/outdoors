@@ -15,9 +15,8 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 
-@Path("post")
+@Path("news")
 @Component
-@RolesAllowed(value = {"ROLE_CLIENT"})
 public class PostResourceImpl implements PostResource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -28,14 +27,12 @@ public class PostResourceImpl implements PostResource {
 
     public PostResourceImpl() {
         logger.info("create PostResourceImpl");
-       // createData();
     }
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     //@Path("all/{start}/{end}")
     @Override
-    //public List<Post> findAll(@PathParam("start")int start, @PathParam("end")int end) {
     public List<Post> findAll() {
         logger.info("findAll called");
         //return postDao.findAll(start, end);
@@ -43,10 +40,10 @@ public class PostResourceImpl implements PostResource {
     }
 
     @GET
-    @Path("{post_id}")
+    @Path("{news_id}")
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
-    public Response get(@PathParam("post_id") String id) {
+    public Response get(@PathParam("news_id") String id) {
         try {
             logger.info("Get detail of {}", id);
             return Response.ok(postDao.getPost(id), MediaType.APPLICATION_JSON).build();
@@ -56,11 +53,11 @@ public class PostResourceImpl implements PostResource {
     }
 
     @POST
-    @Path("{post_id}")
+    @Path("{news_id}")
     @Consumes(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
-    public Post update(@PathParam("post_id") String id, Post post) {
+    public Post update(@PathParam("news_id") String id, Post post) {
         return postDao.createOrUpdatePost(post);
     }
 
@@ -73,11 +70,11 @@ public class PostResourceImpl implements PostResource {
     }
 
     @DELETE
-    @Path("{post_id}")
+    @Path("{news_id}")
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed(value = {"ROLE_TRUSTED_CLIENT"})
     @Override
-    public Post delete(@PathParam("post_id") String id) {
+    public Post delete(@PathParam("news_id") String id) {
         logger.info("remove post with id {}", id);
         return postDao.delete(id);
     }

@@ -1,0 +1,43 @@
+<section class="row">
+    
+    <div class="row" class="small-12 columns">
+    <!--div class="row" class="small-12 columns" ng-show="is_auth"-->
+        <div ng-controller="AddNewsCtrl">
+        <form name="publishForm">
+            <div class="small-12 large-10 columns">
+                <textarea ng-model="news.description" placeholder="Wanna share an idea..."></textarea>
+            </div>
+            <div class="small-12 large-2 columns">
+                <button ng-click="publish(description)" class="button">Publish</button>
+            </div>
+        </form>
+        <p>{{ new.description }}</p>
+        <small>{{ new.publish_date }} by {{ new.author }}</small>
+        </div>
+    </div>
+
+
+    <div ng-controller="NewsListCtrl">
+        <div class="row" class="small-11 columns" ng-repeat="post in posts">
+            <p>{{ new.description }}</p>
+            <small>{{ new.publish_date }} by {{ new.author }}</small>
+        </div>
+    </div>  
+
+
+    <div class="pagination-centered">
+        <ul class="pagination">
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+            <li class="current"><a href="">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href="">4</a></li>
+            <li class="unavailable"><a href="">&hellip;</a></li>
+            <li><a href="">12</a></li>
+            <li><a href="">13</a></li>
+            <li class="arrow"><a href="">&raquo;</a></li>
+        </ul>
+    </div>
+
+
+</section>

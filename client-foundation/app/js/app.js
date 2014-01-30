@@ -4,7 +4,7 @@
 $(document).foundation();
 
 // AngularJS Code
-var outdoorApp = angular.module('outdoorApp', ['ngRoute', 'usersControllers', 'usersServices', 'tokenServices']);
+var outdoorApp = angular.module('outdoorApp', ['ngRoute', 'usersControllers', 'usersServices', 'tokenServices', 'newsControllers', 'newsServices']);
 
 
 outdoorApp.factory('globalResponseInterceptor',['$q','$location','$rootScope',function($q,$location,$rootScope){
@@ -33,10 +33,9 @@ outdoorApp.config([
                 templateUrl: 'partial/auth.html',
                 //controller: 'SignUpCtrl'
             })
-            //.when('/posts/:postId', {
-            //    templateUrl: 'partial/post-detail.html',
-            //    controller: 'BlogDetailsCtrl'
-            //})
+            .when('/news/:news_id', {
+                templateUrl: 'partial/list-news.html',
+            })
             //.when('/posts/create/:postId', {
             //    templateUrl: 'partial/post-form.html',
             //    controller: 'BlogFormCtrl'
@@ -45,12 +44,8 @@ outdoorApp.config([
             //    templateUrl: 'partial/post-form.html',
             //    controller: 'BlogFormCtrl'
             //})
-            //.when('/auth', {
-            //    templateUrl: 'partial/user-form.html',
-            //    controller: 'UserFormCtrl'
-            //})
             .otherwise({
-                'redirectTo': '/'
+                'redirectTo': '/news'
             });
     }
 ]);

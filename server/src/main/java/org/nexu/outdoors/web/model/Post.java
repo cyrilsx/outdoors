@@ -2,6 +2,7 @@ package org.nexu.outdoors.web.model;
 
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement
 public class Post {
@@ -10,15 +11,17 @@ public class Post {
     private String title;
     private String description;
     private String author;
+    private Date publishDate;
 
     public Post() {
     }
 
-    public Post(String postId, String title, String description, String author) {
+    public Post(String postId, String title, String description, String author, Date publishDate) {
         this.postId = postId;
         this.title = title;
         this.description = description;
         this.author = author;
+        this.publishDate = publishDate;
     }
 
     public String getPostId() {
@@ -51,5 +54,13 @@ public class Post {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 }

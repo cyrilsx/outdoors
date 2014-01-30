@@ -5,9 +5,16 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
     <util:properties id="mongoConfiguration" location="classpath:mongo.properties" />
+    <util:properties id="mailConfiguration" location="classpath:mail.properties" />
 
     <context:annotation-config/>
     <context:component-scan base-package="org.nexu.outdoors.web"/>
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="queueCapacity" value="25" />
+    </bean>
 
 
     <import resource="classpath:security.xml"/>
