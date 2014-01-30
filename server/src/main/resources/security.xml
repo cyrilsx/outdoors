@@ -22,7 +22,7 @@
         <security:access-denied-handler ref="oauthAccessDeniedHandler" />
     </security:http>
 
-    <security:http pattern="/services/user" create-session="stateless" authentication-manager-ref="clientAuthenticationManager">
+    <security:http pattern="/services/user" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint">
         <security:intercept-url pattern="/**" method="GET" access="ROLE_USER" />
         <security:intercept-url pattern="/**" method="POST" access="ROLE_USER" />
         <security:intercept-url pattern="/**" method="PUT" access="IS_AUTHENTICATED_ANONYMOUSLY" />
@@ -36,10 +36,13 @@
 
     <!-- The OAuth2 protected resources are separated out into their own block so we can deal with authorization and error handling
     separately. This isn't mandatory, but it makes it easier to control the behaviour. -->
-    <http pattern="/services/post*" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
+    <http pattern="/services/news*" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
           access-decision-manager-ref="accessDecisionManager" xmlns="http://www.springframework.org/schema/security">
-        <anonymous enabled="false" />
-        <intercept-url pattern="/services/post*" access="ROLE_USER" />
+        <security:intercept-url pattern="/**" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/**" method="POST" access="ROLE_USER" />
+        <security:intercept-url pattern="/**" method="PUT" access="ROLE_USER" />
+        <security:intercept-url pattern="/**" method="DELETE" access="ROLE_USER" />
+        <anonymous enabled="true" />
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>

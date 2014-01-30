@@ -9,6 +9,7 @@ usersControllers.controller('SignUpCtrl', ['$scope', '$rootScope','$location','T
     $scope.login = function(user) {
         Token.auth({}, prefixSecu + user.username + '&password=' + user.password, function(response) {
             $rootScope.token = response.value;
+            $rootScope.username = user.username;
             $location.path('/');
         }, 
         function(failure) {
@@ -58,27 +59,48 @@ usersControllers.controller('RegisterCtrl', ['$scope', '$rootScope','$location',
 
 
 
-newsControllers.controller('NewsListCtrl', ['$scope', 'News', function ($scope, News) {
+newsControllers.controller('NewsListCtrl', ['$scope', '$rootScope', 'News', function ($scope, $rootScope, News) {
+    var unbind = $rootScope.$on('NEWS_CREATED', function(news){
+        $scope.newsList = News.query();
+    });
+
+    $scope.$on('$destroy', unbind);
+
     $scope.newsList = News.query();
     $scope.orderProp = 'publishDate';
 }
 ]);
 
 
+// FIXME bad practice find a alternative with service for exemple
+var lastSaved;
 
 newsControllers.controller('AddNewsCtrl', ['$scope', '$rootScope','$location','News', function ($scope, $rootScope, $location, News) {
 
-    $scope.publish = function(news) {
-        News.create(news, function(response) {
 
+    $scope.publish = function(news) {
+        news.author = $rootScope.username; 
+        News.create(news, function(response) {
+            $rootScope.$broadcast('NEWS_CREATED', news);
+            lastSaved = undefined;
+            $scope.reset();
+        }, function(failure) {
+            lastSaved = angular.copy(failure);
+            $('#add_notification').show();
         });       
+    };
+
+    $scope.clean = function() {
+        lastSaved = undefined;
     };
 
     $scope.reset = function() {
          $scope.user = angular.copy($scope.master);
-    };
+    }
 
-    $scope.reset();
+    if(lastSaved) {
+        $('#add_notification').show();
+    }
 
 }
 ]);

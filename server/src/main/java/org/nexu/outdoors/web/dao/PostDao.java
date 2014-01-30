@@ -2,7 +2,7 @@ package org.nexu.outdoors.web.dao;
 
 import org.nexu.outdoors.web.dao.model.CPost;
 import org.nexu.outdoors.web.dao.util.MongoCollectionFactory;
-import org.nexu.outdoors.web.model.Post;
+import org.nexu.outdoors.web.model.News;
 import org.jongo.MongoCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,39 +25,39 @@ public class PostDao {
          postCollection = mongoCollectionFactory.getCollection(CPost.class);
     }
 
-    public Post createOrUpdatePost(Post post) {
-        CPost mongoPost = new CPost(post.getPostId(), post.getTitle(), post.getDescription(), post.getAuthor(), new Date(), null);
+    public News createOrUpdatePost(News post) {
+        CPost mongoPost = new CPost(post.getPostId(), post.getTitle(), post.getDescription(), post.getAuthor(), new Date(), new Date());
         if(post.getPostId() == null) {
             postCollection.save(mongoPost);
         } else {
             postCollection.update("{_id:#}", post.getPostId()).with(post);
         }
 
-        return new Post(mongoPost.getPostId(), mongoPost.getTitle(), mongoPost.getDescription(), mongoPost.getAuthor(), publishDate);
+        return new News(mongoPost.getPostId(), mongoPost.getTitle(), mongoPost.getDescription(), mongoPost.getAuthor(), mongoPost.getCreationDate());
     }
 
-    public Post getPost(String postId) {
+    public News getPost(String postId) {
         //CPost cPost = postCollection.findOne(new ObjectId(postId)).as(CPost.class);
         CPost cPost = postCollection.findOne("{_id:#}", postId).as(CPost.class);
         if(cPost == null) {
             throw new IllegalStateException("postNotFound");
         }
-        return new Post(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor(), publishDate);
+        return new News(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor(), cPost.getCreationDate());
     }
 
-    public List<Post> findAll(int offset, int limit) {
+    public List<News> findAll(int offset, int limit) {
         Iterable<CPost> cPosts = postCollection.find().skip(offset).limit(limit).as(CPost.class);
 
-        List<Post> resPostList = new ArrayList<Post>();
+        List<News> resPostList = new ArrayList<News>();
         for(CPost cPost : cPosts) {
-             resPostList.add(new Post(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor(), publishDate));
+             resPostList.add(new News(cPost.getPostId(), cPost.getTitle(), cPost.getDescription(), cPost.getAuthor(), cPost.getCreationDate()));
         }
 
         return resPostList;
     }
 
-    public Post delete(String postId) {
-        Post post = getPost(postId);
+    public News delete(String postId) {
+        News post = getPost(postId);
         postCollection.remove("{_id:#}", postId);
         return post;
     }

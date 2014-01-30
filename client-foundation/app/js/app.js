@@ -33,8 +33,8 @@ outdoorApp.config([
                 templateUrl: 'partial/auth.html',
                 //controller: 'SignUpCtrl'
             })
-            .when('/news/:news_id', {
-                templateUrl: 'partial/list-news.html',
+            .when('/news', {
+                templateUrl: 'partial/list-news.html'
             })
             //.when('/posts/create/:postId', {
             //    templateUrl: 'partial/post-form.html',
@@ -55,3 +55,12 @@ outdoorApp.config([
         $httpProvider.interceptors.push('globalResponseInterceptor');
     }
 ]);
+
+
+outdoorApp
+.controller('UserManagementCtrl', function($scope, $rootScope) {
+    $scope.username = $rootScope.username;
+    if(!$scope.username) {
+        $scope.username = 'Action';
+    }
+});

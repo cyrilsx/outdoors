@@ -2,7 +2,7 @@ package org.nexu.outdoors.web.resource;
 
 
 import org.nexu.outdoors.web.dao.PostDao;
-import org.nexu.outdoors.web.model.Post;
+import org.nexu.outdoors.web.model.News;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class PostResourceImpl implements PostResource {
     @Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     //@Path("all/{start}/{end}")
     @Override
-    public List<Post> findAll() {
+    public List<News> findAll() {
         logger.info("findAll called");
         //return postDao.findAll(start, end);
         return postDao.findAll(0, 10);
@@ -57,15 +57,15 @@ public class PostResourceImpl implements PostResource {
     @Consumes(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
-    public Post update(@PathParam("news_id") String id, Post post) {
+    public News update(@PathParam("news_id") String id, News post) {
         return postDao.createOrUpdatePost(post);
     }
 
     @PUT
     @Consumes(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
-    public void create(Post post) {
-        logger.info("create new post {}", post.getTitle());
+    public void create(News post) {
+        logger.info("create new post {}", post.getAuthor());
         postDao.createOrUpdatePost(post);
     }
 
@@ -74,7 +74,7 @@ public class PostResourceImpl implements PostResource {
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed(value = {"ROLE_TRUSTED_CLIENT"})
     @Override
-    public Post delete(@PathParam("news_id") String id) {
+    public News delete(@PathParam("news_id") String id) {
         logger.info("remove post with id {}", id);
         return postDao.delete(id);
     }

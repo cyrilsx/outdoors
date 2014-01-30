@@ -1,6 +1,6 @@
 package org.nexu.outdoors.web.resource;
 
-import org.nexu.outdoors.web.model.Post;
+import org.nexu.outdoors.web.model.News;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -9,15 +9,15 @@ import java.util.List;
 public interface PostResource {
 
 
-    List<Post> findAll();
+    List<News> findAll();
 
     Response get(String id);
 
-    Post update(String id, Post post);
+    News update(String id, News post);
 
-    void create(Post post);
+    void create(News post);
 
-    Post delete(String id);
+    News delete(String id);
 
 
 }
