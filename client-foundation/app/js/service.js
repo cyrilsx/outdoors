@@ -18,7 +18,7 @@ usersServices.factory('User', [ '$resource',
         return $resource('services/user/:username', {}, {
             query: {method: 'GET', params: {username: ''}, isArray: true},
             post: {method: 'POST'},
-            create: {method: 'PUT'},
+            create: {method: 'PUT', params: {username: ''}},
             delete: {method: 'DELETE', params: {username: '@username'}}
         });
     }

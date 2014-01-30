@@ -17,7 +17,9 @@ outdoorApp.factory('globalResponseInterceptor',['$q','$location','$rootScope',fu
             return $q.reject(rejection);
         },
         'request': function(config) {
-            config.headers.Authorization = 'Bearer ' + $rootScope.token;
+            if($rootScope.token) {
+                config.headers.Authorization = 'Bearer ' + $rootScope.token;
+            }
             return config || $q.when(config);
         }
 

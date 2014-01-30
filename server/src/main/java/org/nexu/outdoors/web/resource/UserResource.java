@@ -10,7 +10,7 @@ public interface UserResource {
 
     List<User> findAll();
 
-    Response get(String username);
+    User get(String username);
 
     User update(String username, User user);
 

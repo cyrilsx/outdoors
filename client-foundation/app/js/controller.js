@@ -11,7 +11,10 @@ usersControllers.controller('SignUpCtrl', ['$scope', '$rootScope','$location','T
             $location.path('/');
         }, 
         function(failure) {
-            $scope.error = "Usename and password did'nt match";
+            if(failure['error-description'])
+                $scope.error = failure['error-description'];
+            else
+                $scope.error = 'Authentication impossible!!!';
         });
     };
     
@@ -31,7 +34,7 @@ usersControllers.controller('RegisterCtrl', ['$scope', '$rootScope','$location',
         delete user.passwordOne;
         delete user.passwordTwo;
         User.create(user, function(response) {
-            $('a.reveal-link').trigger('click');            
+            $('#confirmation').show();
         });       
     };
 
@@ -40,6 +43,7 @@ usersControllers.controller('RegisterCtrl', ['$scope', '$rootScope','$location',
     };
 
     $scope.reset = function() {
+        $('#confirmation').hide();
          $scope.user = angular.copy($scope.master);
     };
 

@@ -1,10 +1,13 @@
 package org.nexu.outdoors.web.resource;
 
 
+import com.google.common.collect.Lists;
+import org.nexu.outdoors.web.dao.model.CUser;
 import org.nexu.outdoors.web.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -33,12 +36,14 @@ public class UserResourceImpl implements UserResource {
     @Path("{username}")
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
-    public Response get(@PathParam("username") String username) {
+    public User get(@PathParam("username") String username) {
         try {
             logger.info("Get detail of {}", username);
-            return Response.ok(userDao.getUser(username), MediaType.APPLICATION_JSON).build();
+            return userDao.getUser(username);
         }catch(IllegalStateException ex) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + username).build();
+            throw new NotFoundException("Entity not found for id: " + username);
+        }catch (Exception ex) {
+            throw new BadRequestException(ex);
         }
     }
 
@@ -48,14 +53,17 @@ public class UserResourceImpl implements UserResource {
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
     public User update(@PathParam("username") String username, User user) {
-        return userDao.createOrUpdate(user);
+        return userDao.update(user);
     }
 
     @PUT
     @Consumes(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
     public void create(User user) {
-        userDao.createOrUpdate(user);
+        user.setLocked(false);
+        user.setActive(false);
+        user.setAuthorities(Lists.asList(CUser.Authorities.ROLE_USER.getAuthority(), new String[0]));
+        userDao.create(user);
     }
 
     @DELETE
