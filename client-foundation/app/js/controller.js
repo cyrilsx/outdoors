@@ -27,6 +27,9 @@ usersControllers.controller('SignUpCtrl', ['$scope', '$rootScope','$location','T
 usersControllers.controller('RegisterCtrl', ['$scope', '$rootScope','$location','User', function ($scope, $rootScope, $location, User) {
 
     $scope.update = function(user) {
+        user.password = user.passwordOne;
+        delete user.passwordOne;
+        delete user.passwordTwo;
         User.create(user, function(response) {
             $('a.reveal-link').trigger('click');            
         });       

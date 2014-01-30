@@ -5,6 +5,8 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
 
+    //grunt.loadNpmTasks('grunt-connect-proxy');
+
     grunt.initConfig({
         // configurable paths
         yeoman: {
@@ -37,44 +39,49 @@ module.exports = function (grunt) {
                 port: 9000,
                 livereload: 35729,
                 // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                hostname: '0.0.0.0'
             },
             proxies: [
                 {
                     context: '/services',
-                    host: 'localhost',
-                    port: '8080',
-                    //https: false,
-                    //changeOrigin: false,
-                    //xforward: false
+                    host: '127.0.0.1',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false,
+                    xforward: false
+                        //changeOrigin: true,
+                        //rejectUnauthorized: false
                 }
             ],
             livereload: {
                 options: {
-                    open: true,
-                    base: [
-                        '.tmp',
+                        open: true,
+                        base: [
+                            '.tmp',
                         '<%= yeoman.app %>'
-                    ]
+                            ],
+                        middleware: function (connect, options) {
+                            var middlewares = [];
+                            var directory = options.directory || options.base[options.base.length - 1];
+                            if (!Array.isArray(options.base)) {
+                                options.base = [options.base];
+                            }
+                            // Setup the proxy
+                            middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
+
+                            options.base.forEach(function(base) {
+                                // Serve static files.
+                                middlewares.push(connect.static(base));
+                            });
+
+                            // Make directory browse-able.
+                            middlewares.push(connect.directory(directory));
+
+                            return middlewares;
+                        }
+
+                    },
                 },
-                middleware: function (connect, options) {
-                    var middlewares = [];
-
-                    if (!Array.isArray(options.base)) {
-                        options.base = [options.base];
-                    }
-
-                    // Setup the proxy
-                    middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
-
-                    // Serve static files
-                    options.base.forEach(function(base) {
-                        middlewares.push(connect.static(base));
-                    });
-
-                    return middlewares;
-                }
-            },
             test: {
                 options: {
                     base: [
@@ -84,7 +91,7 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-            dist: {
+        dist: {
                 options: {
                     open: true,
                     base: '<%= yeoman.dist %>',

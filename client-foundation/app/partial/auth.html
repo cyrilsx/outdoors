@@ -25,6 +25,12 @@
                 <button class="button [radius round]" ng-click="update(user)" ng-disabled="form.$invalid && isValidPwd(user)">Register</button>
             </div>
         </form> 
+        <div id="welcome" class="reveal-modal" data-reveal>
+            <h2>Awesome. You have an account.</h2>
+            <p class="lead">You will now received an email.</p>
+            <p>Please follow the instruction in the mail. Your email won't be share for commercial use or any other crazy activities. This is only a way to authenticate you.</p>
+            <a class="e-reveal-modal">&#215;</a>
+        </div>
 
     </div>
 
@@ -50,9 +56,3 @@
     </div>
 </div>
 
-<div id="welcome" class="reveal-modal" data-reveal>
-  <h2>Awesome. You have an account.</h2>
-  <p class="lead">You will now received an email.</p>
-  <p>Please follow the instruction in the mail. Your email won't be share for commercial use or any other crazy activities. This is only a way to authenticate you.</p>
-  <a class="e-reveal-modal">&#215;</a>
-</div>

@@ -4,6 +4,7 @@ target/
 *iml
 *project
 .idea
+*swp
 
 # Package Files #
 *.jar

@@ -15,7 +15,7 @@ tokenServices.factory('Token', [ '$resource',
 
 usersServices.factory('User', [ '$resource',
     function ($resource) {
-        return $resource('services/users/:username', {}, {
+        return $resource('services/user/:username', {}, {
             query: {method: 'GET', params: {username: ''}, isArray: true},
             post: {method: 'POST'},
             create: {method: 'PUT'},
