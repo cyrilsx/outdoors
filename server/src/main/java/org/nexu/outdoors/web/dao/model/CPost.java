@@ -56,10 +56,12 @@ public class CPost {
         return author;
     }
 
+    @JsonProperty(LAST_UPDATE)
     public Date getLastUpdate() {
         return lastUpdate;
     }
 
+    @JsonProperty(CREATION_DATE)
     public Date getCreationDate() {
         return creationDate;
     }

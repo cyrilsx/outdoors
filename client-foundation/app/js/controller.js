@@ -2,14 +2,17 @@
 
 var usersControllers = angular.module('usersControllers', []);
 var newsControllers = angular.module('newsControllers', []);
+var activityControllers = angular.module('activityControllers', []);
 
 
-usersControllers.controller('SignUpCtrl', ['$scope', '$rootScope','$location','Token', function ($scope, $rootScope, $location, Token) {
+usersControllers.controller('SignUpCtrl', ['$scope', '$rootScope','$location','Token', 'AppVariable', function ($scope, $rootScope, $location, Token, AppVariable) {
     var prefixSecu = 'client_id=webapp&client_secret=secret&grant_type=password&username=';
     $scope.login = function(user) {
         Token.auth({}, prefixSecu + user.username + '&password=' + user.password, function(response) {
             $rootScope.token = response.value;
-            $rootScope.username = user.username;
+            AppVariable.username = user.username;
+            $rootScope.$broadcast(AppVariable.event_type.login_successful, user.username);
+
             $location.path('/');
         }, 
         function(failure) {
@@ -58,16 +61,29 @@ usersControllers.controller('RegisterCtrl', ['$scope', '$rootScope','$location',
 ]);
 
 
+usersControllers.controller('UserManagementCtrl', function($scope, $rootScope, AppVariable) {
+    $scope.username = AppVariable.username;
 
-newsControllers.controller('NewsListCtrl', ['$scope', '$rootScope', 'News', function ($scope, $rootScope, News) {
-    var unbind = $rootScope.$on('NEWS_CREATED', function(news){
+    $scope.anonymous = AppVariable.is_anonymous();
+    
+    var unbind = $rootScope.$on(AppVariable.event_type.login_successful, function(username){
+        $scope.username = AppVariable.username;
+        $scope.anonymous = AppVariable.is_anonymous();
+    });
+
+    $scope.$on('$destroy', unbind);
+});
+
+
+newsControllers.controller('NewsListCtrl', ['$scope', '$rootScope', 'News', 'AppVariable', function ($scope, $rootScope, News, AppVariable) {
+    var unbind = $rootScope.$on(AppVariable.event_type.update_news, function(news){
         $scope.newsList = News.query();
     });
 
     $scope.$on('$destroy', unbind);
 
     $scope.newsList = News.query();
-    $scope.orderProp = 'publishDate';
+    $scope.orderNews = 'publishDate';
 }
 ]);
 
@@ -75,13 +91,13 @@ newsControllers.controller('NewsListCtrl', ['$scope', '$rootScope', 'News', func
 // FIXME bad practice find a alternative with service for exemple
 var lastSaved;
 
-newsControllers.controller('AddNewsCtrl', ['$scope', '$rootScope','$location','News', function ($scope, $rootScope, $location, News) {
-
-
+newsControllers.controller('AddNewsCtrl', ['$scope', '$rootScope','$location','News', 'AppVariable', function ($scope, $rootScope, $location, News, AppVariable) {
+    $scope.display = !AppVariable.is_anonymous();
     $scope.publish = function(news) {
-        news.author = $rootScope.username; 
+        //news.author = $rootScope.username; 
+        news.author = AppVariable.username;
         News.create(news, function(response) {
-            $rootScope.$broadcast('NEWS_CREATED', news);
+            $rootScope.$broadcast(AppVariable.event_type.update_news, news);
             lastSaved = undefined;
             $scope.reset();
         }, function(failure) {
@@ -104,4 +120,70 @@ newsControllers.controller('AddNewsCtrl', ['$scope', '$rootScope','$location','N
 
 }
 ]);
+
+
+
+activityControllers.controller('ActivityListCtrl', ['$scope', '$rootScope', 'Activity', 'AppVariable', function ($scope, $rootScope, Activity, AppVariable) {
+    //var unbind = $rootScope.$on(AppVariable.event_type.update_news, function(news){
+    //    $scope.activities = Activity.query();
+    //});
+
+    $scope.$on('$destroy', unbind);
+
+    $scope.activities = Activity.query();
+    $scope.orderActivity = 'viewsCounter';
+}
+]);
+
+
+activityControllers.controller('AddActivityCtrl', ['$scope', '$rootScope','$location','Activity', 'AppVariable', function ($scope, $rootScope, $location, Activity, AppVariable) {
+    //$scope.display = !AppVariable.is_anonymous();
+    $scope.prev_enable = false;
+
+    var editor = new wysihtml5.Editor("description", { // id of textarea element
+        toolbar:      "wysihtml5-toolbar", // id of toolbar element
+        parserRules:  wysihtml5ParserRules // defined in parser rules set 
+    });
+
+
+    $scope.publish = function(activity) {
+        activity.creator = AppVariable.username;
+        Activity.create(activity, function(response) {
+            lastSaved = undefined;
+            $scope.reset();
+        }, function(failure) {
+            lastSaved = angular.copy(failure);
+        });       
+    };
+
+    //$scope.clean = function() {
+    //    lastSaved = undefined;
+    //};
+
+    $scope.reset = function() {
+         $scope.user = angular.copy($scope.master);
+    }
+
+    //$('.wysihtml5-sandbox').show();
+    editor.on("change", function() {
+        //$scope.activity = $scope.activity || {};
+        //$scope.activity.description = editor.getValue();
+        $scope.prev_enable = true;
+        $('#preview-content').html(editor.getValue());
+    }).on("paste", function() {
+        $('#preview-content').html(editor.getValue());
+    })
+    .on("newword:composer", function() {
+        $('#preview-content').html(editor.getValue());
+    })
+    .on("undo:composer", function() {
+        $('#preview-content').html(editor.getValue());
+    })
+    .on("redo:composer", function() {
+        $('#preview-content').html(editor.getValue());
+    });
+
+}
+]);
+
 

@@ -1,5 +1,5 @@
 <div ng-controller="AddNewsCtrl">
-    <div class="row" class="small-12 columns">
+    <div class="row" class="large-12 small-12 columns" ng-show="display">
         <!--div class="row" class="small-12 columns" ng-show="is_auth"-->
         <form name="publishForm" novalidate>
             <div class="small-12 large-10 columns">
@@ -22,9 +22,11 @@
 
 
 <div ng-controller="NewsListCtrl">
-    <div class="row" class="small-11 columns" ng-repeat="news in newsList">
-        <p>{{ news.description }}</p>
-        <small>{{ news.publishDate }} by {{ news.author }}</small>
+    <div class="row" class="large-12 small-11 columns" ng-repeat="news in newsList | orderBy:orderNews:true">
+        <div class="panel callout">
+            <p>{{ news.description }}</p>
+            <small class="right">{{ news.publishDate | date:'MM-dd-yyyy HH:MM:ss' }} by {{ news.author }}</small>
+        </div>
     </div>
 </div>  
 

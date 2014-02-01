@@ -4,7 +4,7 @@
 $(document).foundation();
 
 // AngularJS Code
-var outdoorApp = angular.module('outdoorApp', ['ngRoute', 'usersControllers', 'usersServices', 'tokenServices', 'newsControllers', 'newsServices']);
+var outdoorApp = angular.module('outdoorApp', ['ngRoute', 'usersControllers', 'usersServices', 'tokenServices', 'newsControllers', 'newsServices', 'activityControllers', 'activityServices', 'globalServices']);
 
 
 outdoorApp.factory('globalResponseInterceptor',['$q','$location','$rootScope',function($q,$location,$rootScope){
@@ -13,6 +13,7 @@ outdoorApp.factory('globalResponseInterceptor',['$q','$location','$rootScope',fu
             // do something on error
             if (rejection.status === 401) {
                 $location.path('#/users/auth');
+                return rejection;
             }
             return $q.reject(rejection);
         },
@@ -36,16 +37,19 @@ outdoorApp.config([
             .when('/news', {
                 templateUrl: 'partial/list-news.html'
             })
-            //.when('/posts/create/:postId', {
-            //    templateUrl: 'partial/post-form.html',
-            //    controller: 'BlogFormCtrl'
-            //})
-            //.when('/posts/create/new/', {
-            //    templateUrl: 'partial/post-form.html',
-            //    controller: 'BlogFormCtrl'
-            //})
+            .when('/home', {
+                templateUrl: 'partial/home.html'
+            })
+            .when('/activity', {
+                templateUrl: 'partial/activity.html',
+                controller: 'ActivityListCtrl'
+            })
+            .when('/activity/create/new/', {
+                templateUrl: 'partial/activity-form.html',
+                controller: 'AddActivityCtrl'
+            })
             .otherwise({
-                'redirectTo': '/news'
+                'redirectTo': '/home'
             });
     }
 ]);
@@ -57,10 +61,3 @@ outdoorApp.config([
 ]);
 
 
-outdoorApp
-.controller('UserManagementCtrl', function($scope, $rootScope) {
-    $scope.username = $rootScope.username;
-    if(!$scope.username) {
-        $scope.username = 'Action';
-    }
-});

@@ -32,10 +32,12 @@
                 </div>
             </div>
           </li>
-          <li class="has-dropdown">
-          <span ng-controller="UserManagementCtrl"><a href="#" ng-bind="username"></a></span>
+          <li class="has-dropdown" ng-controller="UserManagementCtrl">
+          <a href="#" ng-bind="username"></a>
             <ul class="dropdown">
-                <li><a href="#/users/auth">Login/Sign Up</a></li>
+                <li ng-show="anonymous"><a href="#/users/auth">Login/Sign Up</a></li>
+                <li ng-hide="anonymous"><a href="#/users/manage">Account</a></li>
+                <li ng-hide="anonymous"><a href="#/users/logout">Exit</a></li>
             </ul>
           </li>
       </ul>
@@ -53,6 +55,8 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/foundation/js/foundation.min.js"></script>
+    <script src="bower_components/wysihtml5/parser_rules/advanced.js"></script>
+    <script src="bower_components/wysihtml5/dist/wysihtml5-0.3.0.min.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>

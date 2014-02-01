@@ -2,6 +2,8 @@
 var tokenServices = angular.module('tokenServices', ['ngResource']);
 var usersServices = angular.module('usersServices', ['ngResource']);
 var newsServices = angular.module('newsServices', ['ngResource']);
+var activityServices = angular.module('activityServices', ['ngResource']);
+var globalServices = angular.module('globalServices', []);
 
 
 tokenServices.factory('Token', [ '$resource',
@@ -36,3 +38,32 @@ newsServices.factory('News', [ '$resource',
         });
     }
 ]);
+
+
+activityServices.factory('Activity', [ '$resource',
+    function ($resource) {
+        return $resource('services/activity/:name', {}, {
+            query: {method: 'GET', params: {name: ''}, isArray: true},
+            post: {method: 'POST'},
+            create: {method: 'PUT'},
+            delete: {method: 'DELETE', params: {name: '@name'}}
+        });
+    }
+]);
+
+
+globalServices.factory('AppVariable', function() {
+    return {
+        username: 'Anonymous',
+        event_type: {
+            update_news : 'UPDATE_NEWS',
+            login_successful : 'LOGIN_SUCESSFUL'
+        },
+        anonymous_user: 'Anonymous',
+        is_anonymous: function() {
+            return this.username === this.anonymous_user;
+        }
+
+    };
+
+});

@@ -1,0 +1,55 @@
+<div class="row">
+    <form name="form" novalidate>
+        <div class="row">
+                <label for="name">Name</label>
+                <input id="name" name="name" placeholder="Activity name" ng-model="activity.name" required/>
+            <!--small class="error" ng-show="form.description.$invalid && form.description.$dirty">This field is required.</small-->
+        </div>
+        <div id="wysihtml5-toolbar" class="row" style="display: none;">
+            <!-- A default button-group with small buttons inside -->
+            <div class="button-bar">
+                <ul class="button-group">
+                    <li><a class="small button" data-wysihtml5-command="bold">bold</a></li>
+                    <li><a class="small button" data-wysihtml5-command="italic">italic</a></li>
+                </ul>
+                <ul class="button-group">
+                    <!-- Some wysihtml5 commands require extra parameters -->
+                    <li><a class="small button" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a></li>
+                    <li><a class="small button" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a></li>
+                    <li><a class="small button" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a></li>
+                </ul>
+                <ul class="button-group">
+                    <li>
+                    <!-- Some wysihtml5 commands like 'createLink' require extra paramaters specified by the user (eg. href) -->
+                    <a class="small button" data-wysihtml5-command="createLink">insert link</a>
+                    <div data-wysihtml5-dialog="createLink" style="display: none;">
+                        <label>
+                            Link:
+                            <input data-wysihtml5-dialog-field="href" value="http://" class="text">
+                        </label>
+                        <a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                    </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="row">
+            <textarea id="description" name="description" class="small-12 columns" placeholder="Let's write about it"></textarea>
+            <!--small class="error" ng-show="form.description.$invalid && form.description.$dirty">This field is required.</small-->
+        </div>
+        <div class="row">
+            <button class="button [radius round]" ng-click="update(activity)" ng-disabled="form.$invalid">Send</button>
+        </div>
+    </form> 
+</div>
+
+<div class="row" ng-show="activity || prev_enable" style="background-color: grey">
+    <article>
+    <h2>{{ activity.name }}</h2> 
+    <section id="preview-content">
+    {{ activity.description }}
+    </section>
+    </article>
+
+</div>
