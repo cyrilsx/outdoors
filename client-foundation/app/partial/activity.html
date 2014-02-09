@@ -1,18 +1,18 @@
 <!-- A default button-group with small buttons inside -->
 <ul class="button-group">
-    <li><a href="/activity/create/new/'" class="button">Create</a></li>
+    <li><a href="/activity/create/new/" class="button">Create</a></li>
     <li><a href="#" class="button">Become a player</a></li>
 </ul>
 
 
-<div class="row" ng-repeat="activities | orderBy:orderActivity">
+<div class="row">
     <div class="columns small-2 large-2">
         <a class="th [radius]" href="#">
             <img src="assets/cycling_mountain_biking_px.png">
         </a>
     </div>
     <div class="columns small-10">
-        <h2><a href="#" >{{ activities.name }}</a></h2>
-        <p>{{ activities.description }}</p>
+        <h2><a href="#" >{{ activity.name }}</a></h2>
+        <article>{{ activity.description }}</article>
     </div>
 </div>

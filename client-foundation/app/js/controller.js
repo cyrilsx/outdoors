@@ -123,12 +123,12 @@ newsControllers.controller('AddNewsCtrl', ['$scope', '$rootScope','$location','N
 
 
 
-activityControllers.controller('ActivityListCtrl', ['$scope', '$rootScope', 'Activity', 'AppVariable', function ($scope, $rootScope, Activity, AppVariable) {
+activityControllers.controller('ActivityListCtrl', ['$scope', 'Activity', 'AppVariable', function ($scope, Activity, AppVariable) {
     //var unbind = $rootScope.$on(AppVariable.event_type.update_news, function(news){
     //    $scope.activities = Activity.query();
     //});
 
-    $scope.$on('$destroy', unbind);
+    //$scope.$on('$destroy', unbind);
 
     $scope.activities = Activity.query();
     $scope.orderActivity = 'viewsCounter';
@@ -136,9 +136,31 @@ activityControllers.controller('ActivityListCtrl', ['$scope', '$rootScope', 'Act
 ]);
 
 
-activityControllers.controller('AddActivityCtrl', ['$scope', '$rootScope','$location','Activity', 'AppVariable', function ($scope, $rootScope, $location, Activity, AppVariable) {
+activityControllers.controller('ActivityDetailsCtrl', ['$scope', '$routeParams', 'Activity', 'AppVariable', function ($scope, $routeParams, Activity, AppVariable) {
+    //var unbind = $rootScope.$on(AppVariable.event_type.update_news, function(news){
+    //    $scope.activities = Activity.query();
+    //});
+
+    //$scope.$on('$destroy', unbind);
+
+    $scope.activity = Activity.query({name: $routeParams.activityId}, function(activity) {
+        $scope.activity = activity;
+    });
+    $scope.orderActivity = 'viewsCounter';
+}
+]);
+
+
+activityControllers.controller('AddActivityCtrl', ['$scope', '$rootScope', '$routeParams', '$location','Activity', 'AppVariable', function ($scope, $rootScope, $routeParams, $location, Activity, AppVariable) {
     //$scope.display = !AppVariable.is_anonymous();
     $scope.prev_enable = false;
+
+    if($routeParams.activityId) {
+        Activity.query({name: $routeParams.activityId}, function(activity) {
+            $scope.master = activity;
+            $scope.reset();
+        });
+    }
 
     var editor = new wysihtml5.Editor("description", { // id of textarea element
         toolbar:      "wysihtml5-toolbar", // id of toolbar element
@@ -148,26 +170,23 @@ activityControllers.controller('AddActivityCtrl', ['$scope', '$rootScope','$loca
 
     $scope.publish = function(activity) {
         activity.creator = AppVariable.username;
-        Activity.create(activity, function(response) {
-            lastSaved = undefined;
-            $scope.reset();
-        }, function(failure) {
-            lastSaved = angular.copy(failure);
+        activity.description = editor.getValue();
+        Activity.create(activity, function(data) {
+            if(data.error) {
+                $scope.error_returned = data.error;
+            } else {
+                $location.path('#/activity/' + activity.name);
+            }
         });       
     };
 
-    //$scope.clean = function() {
-    //    lastSaved = undefined;
-    //};
 
     $scope.reset = function() {
-         $scope.user = angular.copy($scope.master);
-    }
+         $scope.activity = angular.copy($scope.master);
+    };
 
     //$('.wysihtml5-sandbox').show();
     editor.on("change", function() {
-        //$scope.activity = $scope.activity || {};
-        //$scope.activity.description = editor.getValue();
         $scope.prev_enable = true;
         $('#preview-content').html(editor.getValue());
     }).on("paste", function() {

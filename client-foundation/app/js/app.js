@@ -12,8 +12,9 @@ outdoorApp.factory('globalResponseInterceptor',['$q','$location','$rootScope',fu
         'responseError': function(rejection) {
             // do something on error
             if (rejection.status === 401) {
-                $location.path('#/users/auth');
-                return rejection;
+                //$location.path('#/users/auth');
+                window.location = '#/users/auth';
+                //return rejection;
             }
             return $q.reject(rejection);
         },
@@ -47,6 +48,14 @@ outdoorApp.config([
             .when('/activity/create/new/', {
                 templateUrl: 'partial/activity-form.html',
                 controller: 'AddActivityCtrl'
+            })
+            .when('/activity/create/:activityId', {
+                templateUrl: 'partial/activity.html',
+                controller: 'AddActivityCtrl'
+            })
+            .when('/activity/:activityId', {
+                templateUrl: 'partial/activity.html',
+                controller: 'ActivityDetailsCtrl'
             })
             .otherwise({
                 'redirectTo': '/home'

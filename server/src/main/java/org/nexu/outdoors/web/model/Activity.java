@@ -22,11 +22,12 @@ public class Activity {
     private List<String> players;
 
     private int viewsCounter;
+    private String activityLink;
 
     public Activity(){}
 
     public Activity(String name, String description, List<String> picturesUrl, List<String> videosUrl, Date creationDate,
-                    Date latestUpdate, String creator, List<String> contributors, List<String> players, int viewsCounter) {
+                    Date latestUpdate, String creator, List<String> contributors, List<String> players, int viewsCounter, String activityLink) {
         this.name = name;
         this.description = description;
         this.picturesUrl = picturesUrl;
@@ -37,6 +38,7 @@ public class Activity {
         this.contributors = contributors;
         this.players = players;
         this.viewsCounter = viewsCounter;
+        this.activityLink = activityLink;
     }
 
     public String getName() {
@@ -117,5 +119,13 @@ public class Activity {
 
     public void setPlayers(List<String> players) {
         this.players = players;
+    }
+
+    public String getActivityLink() {
+        return activityLink;
+    }
+
+    public void setActivityLink(String activityLink) {
+        this.activityLink = activityLink;
     }
 }

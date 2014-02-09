@@ -21,6 +21,7 @@ public class CActivity {
     private static final String CONTRIBUTORS = "contributors";
     private static final String PLAYERS = "players";
     private static final String VIEWS_COUNTER = "views_counter";
+    private static final String ACTIVITY_LINK= "link";
 
     private final String name;
     private final String description;
@@ -36,12 +37,13 @@ public class CActivity {
     private final List<String> players;
 
     private final int viewsCounter;
+    private final String activityLink;
 
     @JsonCreator
     public CActivity(@JsonProperty(NAME) String name, @JsonProperty(DESCRIPTION) String description, @JsonProperty(PICTURES_URL)
     List<String> picturesUrl, @JsonProperty(VIDEOS_URL) List<String> videosUrl, @JsonProperty(CREATION_DATE) Date creationDate,
                      @JsonProperty(LATEST_UPDATE) Date latestUpdate, @JsonProperty(CREATOR) String creator, @JsonProperty(CONTRIBUTORS) List<String> contributors,
-                     @JsonProperty(PLAYERS) List<String> players, @JsonProperty(VIEWS_COUNTER) int viewsCounter) {
+                     @JsonProperty(PLAYERS) List<String> players, @JsonProperty(VIEWS_COUNTER) int viewsCounter, @JsonProperty(ACTIVITY_LINK) String activityLink) {
         this.name = name;
         this.description = description;
         this.picturesUrl = picturesUrl;
@@ -52,6 +54,7 @@ public class CActivity {
         this.contributors = contributors;
         this.players = players;
         this.viewsCounter = viewsCounter;
+        this.activityLink = activityLink;
     }
 
     public String getName() {
@@ -92,5 +95,9 @@ public class CActivity {
 
     public int getViewsCounter() {
         return viewsCounter;
+    }
+
+    public String getActivityLink() {
+        return activityLink;
     }
 }

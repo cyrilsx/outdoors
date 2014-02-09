@@ -44,8 +44,9 @@ activityServices.factory('Activity', [ '$resource',
     function ($resource) {
         return $resource('services/activity/:name', {}, {
             query: {method: 'GET', params: {name: ''}, isArray: true},
+            get: {method: 'GET', params: {name: '@name'}},
             post: {method: 'POST'},
-            create: {method: 'PUT'},
+            create: {method: 'PUT', params: {name: ''}},
             delete: {method: 'DELETE', params: {name: '@name'}}
         });
     }

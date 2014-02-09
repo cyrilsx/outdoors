@@ -27,7 +27,7 @@ public class ActivityDao {
     public Activity createOrUpdatePost(final Activity activity) {
         CActivity cActivity = new CActivity(activity.getName(), activity.getDescription(), activity.getPicturesUrl(),
                 activity.getVideosUrl(), activity.getCreationDate(), activity.getLatestUpdate(), activity.getCreator(),
-                activity.getContributors(), activity.getPlayers(), activity.getViewsCounter());
+                activity.getContributors(), activity.getPlayers(), activity.getViewsCounter(), activity.getActivityLink());
         if(cActivity.getCreationDate() == null) {
             activityCollection.save(cActivity);
         } else {
@@ -37,14 +37,14 @@ public class ActivityDao {
         return activity;
     }
 
-    public Activity getActivity(String name) {
-        CActivity activity = activityCollection.findOne("{name:#}", name).as(CActivity.class);
+    public Activity getActivityByLink(String name) {
+        CActivity activity = activityCollection.findOne("{activityLink:#}", name).as(CActivity.class);
         if(activity == null) {
             throw new IllegalStateException("activityNotFound");
         }
         return new Activity(activity.getName(), activity.getDescription(), activity.getPicturesUrl(),
                 activity.getVideosUrl(), activity.getCreationDate(), activity.getLatestUpdate(), activity.getCreator(),
-                activity.getContributors(),activity.getPlayers(), activity.getViewsCounter());
+                activity.getContributors(),activity.getPlayers(), activity.getViewsCounter(), activity.getActivityLink());
     }
 
     public List<Activity> findAll(int offset, int limit) {
@@ -54,14 +54,14 @@ public class ActivityDao {
         for(CActivity activity : activities) {
             resActivityList.add(new Activity(activity.getName(), activity.getDescription(), activity.getPicturesUrl(),
                     activity.getVideosUrl(), activity.getCreationDate(), activity.getLatestUpdate(), activity.getCreator(),
-                    activity.getContributors(), activity.getPlayers(), activity.getViewsCounter()));
+                    activity.getContributors(), activity.getPlayers(), activity.getViewsCounter(), activity.getActivityLink()));
         }
 
         return resActivityList;
     }
 
     public Activity delete(String name) {
-        Activity activity = getActivity(name);
+        Activity activity = getActivityByLink(name);
         activityCollection.remove("{_id:#}", name);
         return activity;
     }

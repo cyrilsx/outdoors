@@ -6,12 +6,12 @@
                   <img src="../assets/cycling_mountain_biking_px.png">
             </a>
             <section class="hide-for-small-only">
-                <div ng-controller="NewsListCtrl">
-                    <div class="row" class="large-12 columns" ng-repeat="activities  | orderBy:orderActivity:true">
+                <div ng-controller="ActivityListCtrl">
+                    <div class="row" class="large-12 columns" ng-repeat="activity in activities | orderBy:orderActivity:true">
                         <div class="panel callout">
-                            <h3>{{ activities.name }}</h3>
-                            <p>{{ activities.description }}</p>
-                            <small class="right">{{ activities.creator }}</small>
+                            <h3><a href="/#/activity/{{activity.activityLink}}">{{ activity.name }}</a></h3>
+                            <p>{{ activity.description }}</p>
+                            <small class="right">{{ activity.creator }}</small>
                         </div>
                     </div>
                 </div>  

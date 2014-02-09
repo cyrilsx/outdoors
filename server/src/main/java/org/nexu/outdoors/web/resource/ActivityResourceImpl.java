@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 @Path("activity")
@@ -22,15 +23,19 @@ public class ActivityResourceImpl implements ActivityResource {
     private ActivityDao activityDao;
 
     @Override
+    @GET
+    @Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Activity> findAll() {
         return activityDao.findAll(0, 10);
     }
 
+    @GET
+    @Path("{name}")
+    @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
-    public Activity get(String name) {
-        return activityDao.getActivity(name);
+    public Activity get(@PathParam("name") String name) {
+        return activityDao.getActivityByLink(name);
     }
-
     @Override
     public Activity update(String name, Activity activity) {
         return activityDao.createOrUpdatePost(activity);
@@ -40,6 +45,9 @@ public class ActivityResourceImpl implements ActivityResource {
     @Produces(value = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Override
     public void create(Activity activity) {
+        activity.setLatestUpdate(new Date());
+        activity.setViewsCounter(0);
+        activity.setActivityLink(activity.getName().replace(' ', '_'));
         activityDao.createOrUpdatePost(activity);
     }
 
