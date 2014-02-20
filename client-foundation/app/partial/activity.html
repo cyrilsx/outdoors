@@ -1,8 +1,17 @@
 <!-- A default button-group with small buttons inside -->
-<ul class="button-group">
-    <li><a href="/activity/create/new/" class="button">Create</a></li>
-    <li><a href="#" class="button">Become a player</a></li>
-</ul>
+<div class="row" ng-controller="UserManagementCtrl">
+    <ul ng-hide="anonymous" class="button-group">
+        <li><a href="/#/activity/create/new/" class="button">Create</a></li>
+        <li><a href="/#/activity/create/{{ activity.activityLink}}/" class="button">Edit</a></li>
+        <li><a href="#" class="button">Become a player</a></li>
+    </ul>
+    
+    <div ng-hide="username" class="panel">
+        <h5>Why not to register, contribute and go out...</h5>
+        <p><a href="#/users/auth">Register</a> allow you to contribute to an activity. Maybe you will share your experience and create new experience.</p>
+    </div>
+
+</div>
 
 
 <div class="row">

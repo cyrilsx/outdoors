@@ -143,7 +143,7 @@ activityControllers.controller('ActivityDetailsCtrl', ['$scope', '$routeParams',
 
     //$scope.$on('$destroy', unbind);
 
-    $scope.activity = Activity.query({name: $routeParams.activityId}, function(activity) {
+    $scope.activity = Activity.get({name: $routeParams.activityId}, function(activity) {
         $scope.activity = activity;
     });
     $scope.orderActivity = 'viewsCounter';
